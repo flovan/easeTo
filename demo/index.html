@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>scrollTo.js demo</title>
+	<link rel="stylesheet" href="demo.css">
+	<!-- Include respond.js to make sure the media queries work in IE8(-) -->
+	<!--[if lt IE 9]>
+	<script src="lib/respond.min.js"></script>
+	<script src="lib/nwmatcher.min.js"></script>
+	<script src="lib/selectivizr.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<nav>
+		<select id="easing">
+			<option value="linear">linear</option>
+			<option value="easeInQuad">easeInQuad</option>
+			<option value="easeOutQuad">easeOutQuad</option>
+			<option value="easeInOutQuad">easeInOutQuad</option>
+			<option value="easeInCubic">easeInCubic</option>
+			<option value="easeOutCubic">easeOutCubic</option>
+			<option value="easeInOutCubic">easeInOutCubic</option>
+			<option value="easeInQuart">easeInQuart</option>
+			<option value="easeOutQuart">easeOutQuart</option>
+			<option value="easeInOutQuart">easeInOutQuart</option>
+			<option value="easeInQuint">easeInQuint</option>
+			<option value="easeOutQuint">easeOutQuint</option>
+			<option value="easeInOutQuint">easeInOutQuint</option>
+			<option value="easeInSine">easeInSine</option>
+			<option value="easeOutSine">easeOutSine</option>
+			<option value="easeInOutSine">easeInOutSine</option>
+			<option value="easeInExpo">easeInExpo</option>
+			<option value="easeOutExpo">easeOutExpo</option>
+			<option value="easeInOutExpo">easeInOutExpo</option>
+			<option value="easeInCirc">easeInCirc</option>
+			<option value="easeOutCirc">easeOutCirc</option>
+			<option value="easeInOutCirc">easeInOutCirc</option>
+		</select>
+		<button id="to-top">Scroll to page top</button>
+		<button id="to-center">Scroll to center element</button>
+		<button id="to-bottom">Scroll to page bottom</button>
+	</nav>
+	<div id="center">I am in the center</div>
+	<!-- -->
+	<script src="../easeTo.js"></script>
+	<script>
+		var
+			easing = document.getElementById('easing'),
+			tt = document.getElementById('to-top'),
+			tc = document.getElementById('to-center'),
+			tb = document.getElementById('to-bottom')
+		;
+
+		addEvent(tt, 'click', function (e) {
+			easeTo(0, {easing: easing.value});
+		});
+
+		addEvent(tc, 'click', function (e) {
+			easeTo(document.getElementById('center'), {easing: easing.value});
+		});
+
+		addEvent(tb, 'click', function (e) {
+			easeTo(document.body.offsetHeight, {easing: easing.value});
+		});
+
+		// Polyfill addEventListener
+		// http://stackoverflow.com/a/10150042
+		function addEvent(elem, event, fn) {
+			if (elem.addEventListener) {
+				elem.addEventListener(event, fn, false);
+			} else {
+				elem.attachEvent('on' + event, function () {
+					return (fn.call(elem, window.event));
+				});
+			}
+		}
+	</script>
+</body>
+</html>
+
