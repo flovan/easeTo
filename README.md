@@ -3,7 +3,7 @@
 #easeTo.js v0.0.1
 
 A zero-dependency script to scroll a webpage to a certain point with easing.
-<1KB minified and gzipped.
+~1KB minified and gzipped.
 
 [&rarr; Demo page &larr;](http://htmlpreview.github.io/?https://github.com/flovan/easeto/blob/master/demo/index.html)
 
