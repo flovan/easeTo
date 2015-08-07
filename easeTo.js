@@ -1,4 +1,4 @@
-//  easeTo.js 0.0.1
+//  easeTo.js 0.0.2
 //  https://github.com/flovan/easeTo
 //  (c) 2015-whateverthecurrentyearis Florian Vanthuyne
 //  easeTo may be freely distributed under the MIT license.
@@ -28,47 +28,83 @@
 
 	function easeTo (trg, opts) {
 		var
-			_engine      = null,
-			_counter     = 0,
-			_startValue  = 0,
-			_offsetValue = 0,
-			_endValue    = 0,
-			_easing      = null,
-			_settings    = {
-				easing:   'linear',
-				duration: 250
-			}
+			_engine        = null,
+			_counter       = 0,
+			_startValue    = 0,
+			_offsetValue   = 0,
+			_endValue      = 0,
+			_easing        = generateEasingFcts(),
+			_containerFlag = false,
+			_defaults      = {
+				easing:    'linear',
+				duration:  250,
+				offset:    0,
+				container: w,
+				callback:  null
+			},
+			_settings      = {},
+			_trgType       = typeof trg
 		;
 
 		// Prevent empty or invalid target
-		if (trg === undefined) {
-			console.error('`easeTo` requires a target of type Number or a Node element).');
-			return;
-		} else if (typeof trg !== 'number' && typeof trg !== 'object') {
-			// TODO: maybe add an extra check to see if this is really a Node
-			console.error('The `easeTo` target should be a Number or a Node element.');
+		if (trg === undefined || (_trgType !== 'number' && _trgType !== 'object' || _trgType === 'object' && !trg.nodeType > 0)) {
+			console.error('The `easeTo` target parameter should be a Number or an element.');
 			return;
 		}
 
 		// Prevent invalid options
 		opts = opts || {};
 		if (!isObject(opts)) {
-			console.error('The options passed into `easeTo` should be an Object. Continuing with default settings.');
+			console.error('The options parameter passed into `easeTo` should be an Object. Continuing with default settings.');
 			opts = {};
 			return;
 		}
 
-		// Grab window offset
-		_startValue = w.pageYOffset || d.body.scrollTop;
+		// Prevent invalid easing
+		if (opts.easing === undefined || _easing[opts.easing] === 'undefined') {
+			console.error('The easing option passed into `easeTo` is not valid. Using default value.');
+			opts.easing = _defaults.easing;
+		}
 
-		// Get the target value
-		_endValue = (typeof trg !== 'number') ? trg.offsetTop : trg;
+		// Prevent invalid duration
+		if (opts.duration !== undefined && typeof opts.duration !== 'number') {
+			console.error('The duration option passed into `easeTo` should be a Number. Using default value.');
+			opts.duration = _defaults.duration;
+		}
+
+		// Prevent invalid offset
+		if (opts.offset !== undefined && typeof opts.offset !== 'number') {
+			console.error('The offset option passed into `easeTo` should be a Number. Using default value.');
+			opts.offset = _defaults.offset;
+		}
 
 		// Merge options with default settings
-		_settings = extend({}, _settings, opts);
+		_settings = extend(_settings, _defaults, opts);
+		
+		// Get the target value
+		_endValue = ((_trgType !== 'number') ? trg.offsetTop : trg) + _settings.offset;
 
-		// Define the easing functions
-		_easing = generateEasingFcts();
+		// Check if a custom container was passed and if it's valid
+		// Also set the startValue
+		if (_settings.container !== w) {
+			if (!_settings.container.nodeType > 0) {
+				console.error('The container that was passed into the `easeTo` options is not an element.');
+				return;
+			}
+
+			_containerFlag = true;
+			_startValue = _settings.container.scrollTop;
+		} else {
+			_startValue = w.pageYOffset || d.body.scrollTop;
+		}
+
+		// If the endValue is already the startValue, quit early
+		if (_startValue === _endValue) {
+			if (typeof _settings.callback === 'function') {
+				_settings.callback.apply(_settings.container);
+			}
+			return;
+		}
 
 		// Let the engine run
 		_engine = setInterval(function () {
@@ -79,13 +115,19 @@
 				_settings.duration
 			);
 
-			console.log('Scrolling to %s with easing %', _endValue, _settings.easing);
+			if (_containerFlag) {
+				_settings.container.scrollTop = _offsetValue;
+			} else {
+				window.scrollTo(0, _offsetValue);
+			}
 
 			_counter++;
-			window.scrollTo(0, _offsetValue);
-
 			if (_counter > _settings.duration) {
 				clearInterval(_engine);
+
+				if (typeof _settings.callback === 'function') {
+					_settings.callback.apply(_settings.container);
+				}
 			}
 		}, 1);
 	}
