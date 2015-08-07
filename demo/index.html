@@ -38,7 +38,7 @@
 			<option value="easeOutCirc">easeOutCirc</option>
 			<option value="easeInOutCirc">easeInOutCirc</option>
 		</select>
-		<button id="to-center">Scroll to element</button>
+		<button id="to-center">Scroll to element w/ offset</button>
 		<button id="to-content-bottom">Scroll overflow content to bottom</button>
 		<button id="to-bottom">Scroll to page bottom</button>
 		<button id="to-top">Scroll to page top (callback)</button>
@@ -91,7 +91,10 @@
 		;
 
 		addEvent(tc, 'click', function (e) {
-			easeTo(ec, {easing: easing.value});
+			easeTo(ec, {
+				easing: easing.value,
+				offset: -100
+			});
 		});
 
 		addEvent(tcb, 'click', function (e) {
