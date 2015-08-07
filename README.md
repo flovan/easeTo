@@ -14,7 +14,7 @@ A zero-dependency script to scroll a webpage to a certain point through common e
 easeTo(500);
 
 // To a specific element (with jQuery)
-scrollTo($('.my-el').get(0));
+easeTo($('.my-el').get(0));
 
 // Change the options
 easeTo(document.body.offsetHeight, {
