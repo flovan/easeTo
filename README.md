@@ -77,7 +77,7 @@ IE9+, Chrome 39+, Safari 8+, Opera 26+, FF 35+
 ## TODO
 
 - Add `requestAnimationFrame` and use it when possible
-- Test setInterval` performance (sometimes scrolls seem to glitch out)
+- Test setInterval` performance (sluggish in IE, sometimes glitches out in Chrome)
 - Try to fix scrollTop of 0 in IE8 and test further down
 - Maybe add "start" and "complete" instead of "callback"
 - Instead of requiring a native element, allow jQuery object
