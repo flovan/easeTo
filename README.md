@@ -1,6 +1,6 @@
 ![easeTo](https://raw.github.com/flovan/easeto/master/demo/img/easeto.gif)
 
-#easeTo.js v0.0.2
+#easeTo.js v0.1.0
 
 A zero-dependency script to scroll a webpage to a certain point through common easing functions.  
 ~1KB minified and gzipped.
@@ -70,18 +70,23 @@ Available options (with their default values):
 
 ## Browser support
 
-Chrome 39+, Safari 8+, Opera 26+, FF 35+
+IE9+, Chrome 39+, Safari 8+, Opera 26+, FF 35+
 
 > **Note:** Modern browser support will probably be better than listed above. If you tested an earlier version, feel free to send a PR with updated versions.
 
 ## TODO
 
-- Test IE
+- Add `requestAnimationFrame` and use it when possible
+- Test setInterval` performance (sometimes scrolls seem to glitch out)
+- Try to fix scrollTop of 0 in IE8 and test further down
 - Maybe add "start" and "complete" instead of "callback"
 - Instead of requiring a native element, allow jQuery object
+- Add start delay to options
 
 ## Changelog
 
+* **0.1.0**
+  * Initial release
 * **0.0.2**
   * Expanded API
 * **0.0.1**

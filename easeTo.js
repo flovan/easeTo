@@ -1,4 +1,4 @@
-//  easeTo.js 0.0.2
+//  easeTo.js 0.1.0
 //  https://github.com/flovan/easeTo
 //  (c) 2015-whateverthecurrentyearis Florian Vanthuyne
 //  easeTo may be freely distributed under the MIT license.
@@ -30,7 +30,7 @@
 		var
 			_engine        = null,
 			_counter       = 0,
-			_startValue    = 0,
+			_startValue    = getPageY(),
 			_offsetValue   = 0,
 			_endValue      = 0,
 			_easing        = generateEasingFcts(),
@@ -80,7 +80,7 @@
 
 		// Merge options with default settings
 		_settings = extend(_settings, _defaults, opts);
-		
+
 		// Get the target value
 		_endValue = ((_trgType !== 'number') ? trg.offsetTop : trg) + _settings.offset;
 
@@ -139,6 +139,10 @@
 	// HELPER FUNCTIONS                                                      //
 	//                                                                       //
 	///////////////////////////////////////////////////////////////////////////
+
+	function getPageY () {
+		return window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop || 0;
+	}
 
 	function generateEasingFcts () {
 		// Easing functions have following parameters:

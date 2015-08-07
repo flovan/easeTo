@@ -11,9 +11,25 @@
 	<script src="lib/nwmatcher.min.js"></script>
 	<script src="lib/selectivizr.min.js"></script>
 	<![endif]-->
+	<!--[if IE 9]>
+	<style>
+	body {
+		background-image: url(img/bg-grad.jpg);
+		background-size: 1px 100%;
+		background-repeat: repeat-x;
+	}
+	</style>
+	<![endif]-->
+	<!--[if lte IE 8]>
+	<style>
+	body {
+		-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/bg-grad.jpg',sizingMethod='scale')";
+	}
+	</style>
+	<![endif]-->
 </head>
 <body>
-	<nav>
+	<div class="nav">
 		<select id="easing">
 			<option value="linear">linear</option>
 			<option value="easeInQuad">easeInQuad</option>
@@ -42,7 +58,7 @@
 		<button id="to-content-bottom">Scroll overflow content to bottom</button>
 		<button id="to-bottom">Scroll to page bottom</button>
 		<button id="to-top">Scroll to page top (callback)</button>
-	</nav>
+	</div>
 	<div id="center">
 		<h2>A random element</h2>
 		<div id="overflow">
